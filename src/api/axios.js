@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui'
 
 const iAxios = axios.create({
   timeout: 10000 // 请求超过10秒即超时，返回错误
@@ -21,13 +22,16 @@ iAxios.interceptors.response.use(
       if (response.data.returnCode === 0) {
         return response.data.returnData
       } else {
+        Message.error(response.data.returnDesc)
         return Promise.reject(response.data)
       }
     } else {
+      Message.error(response.status + ':' + response.statusText)
       return Promise.reject(response.data)
     }
   },
   function (error) {
+    Message.error('响应失败！')
     return Promise.reject(error)
   }
 )

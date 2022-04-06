@@ -14,8 +14,16 @@ const userSchema = mongoose.Schema({
   username: String,
   password: String
 })
+const projectSchema = mongoose.Schema({
+  title: String,
+  projectId: String,
+  username: String,
+  createTime: String,
+  updateTime: String
+})
 const model = {
-  User: mongoose.model('User', userSchema)
+  User: mongoose.model('User', userSchema),
+  Project: mongoose.model('Project', projectSchema)
 }
 
 module.exports = model

@@ -1,4 +1,6 @@
 export default {
   // 用户信息
-  userInfo: ''
+  userInfo: '',
+  // 当前项目信息
+  projectInfo: ''
 }

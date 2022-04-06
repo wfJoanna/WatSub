@@ -6,5 +6,11 @@ export default {
   },
   register (context, data) {
     return api.userRegister(data)
+  },
+  createProject (context, data) {
+    return api.projectCreate(data)
+  },
+  getProjects (context, data) {
+    return api.projectGet(data)
   }
 }
