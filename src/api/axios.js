@@ -1,9 +1,19 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '../store'
 
 const iAxios = axios.create({
-  timeout: 10000 // 请求超过10秒即超时，返回错误
+  timeout: 30000 // 请求超过30秒即超时，返回错误
 })
+
+iAxios.interceptors.request.use(
+  config => {
+    if (store.state.userInfo.token) {
+      config.headers.Authorization = `token ${store.state.userInfo.token}`
+    }
+    return config
+  }
+)
 
 iAxios.interceptors.response.use(
   function (response) {

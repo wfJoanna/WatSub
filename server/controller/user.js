@@ -1,4 +1,6 @@
 const User = require('../db').User
+const { createToken } = require('../token')
+const { guid } = require('../util')
 
 // 数据库的操作
 // 根据用户名查找用户
@@ -32,7 +34,8 @@ const Login = async ctx => {
     ctx.body = {
       returnCode: 0,
       returnData: {
-        username
+        username,
+        token: createToken(doc.userId)
       },
       returnDesc: '密码正确'
     }
@@ -50,7 +53,8 @@ const Login = async ctx => {
 const Reg = async ctx => {
   const user = new User({
     username: ctx.request.body.username,
-    password: ctx.request.body.password
+    password: ctx.request.body.password,
+    userId: guid()
   })
   const doc = await findUser(user.username)
   if (doc) {

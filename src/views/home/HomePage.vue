@@ -14,15 +14,24 @@
       </div>
     </div>
     <div class="my-projects">
-      <el-table :data="projects">
-        <el-table-column label="项目名" width="300">
+      <el-table :data="projects" :default-sort="{prop: 'updateTime', order: 'descending'}" v-loading="projectLoading"
+                element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(255, 255, 255, 1)">
+        <el-table-column label="项目名" width="300" sortable>
           <template slot-scope="scope">
-            <el-button type="text" @click="handleOpenProject(scope.row)">{{ scope.row.title }}</el-button>
+            <el-button type="text" @click="handleOpenProject(scope.row)" style="margin-right: 5px">{{ scope.row.title }}</el-button>
+            <el-tag type="success" size="mini" v-if="scope.row.status==='3'">识别完成</el-tag>
+            <el-tag type="info" size="mini" v-if="scope.row.status==='2'">识别失败</el-tag>
+            <el-tag size="mini" v-if="scope.row.status==='1'">识别中</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="拥有者" width="300"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="400"></el-table-column>
-        <el-table-column prop="updateTime" label="最后修改时间"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="400" sortable></el-table-column>
+        <el-table-column prop="updateTime" label="上次更新时间" width="400" sortable></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button @click="handleDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -30,13 +39,13 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
-import * as Util from '@/utils/util'
 
 export default {
   name: 'HomePage',
   data () {
     return {
-      projects: []
+      projects: [],
+      projectLoading: false
     }
   },
   computed: {
@@ -44,17 +53,10 @@ export default {
   },
   methods: {
     ...mapMutations(['set_project_info']),
-    ...mapActions(['createProject', 'getProjects']),
+    ...mapActions(['createProject', 'getProjects', 'deleteProject']),
     handleCreate () {
-      const p = {
-        title: '未命名项目',
-        projectId: Util.guid(),
-        username: this.userInfo.username,
-        createTime: Util.getNowYMDHMS(),
-        updateTime: Util.getNowYMDHMS()
-      }
-      this.createProject(p).then(res => {
-        this.set_project_info(p)
+      this.createProject().then(res => {
+        this.set_project_info(res)
         this.$router.push({
           path: '/edit'
         })
@@ -65,12 +67,27 @@ export default {
       this.$router.push({
         path: '/edit'
       })
+    },
+    handleDelete (item) {
+      this.deleteProject(item.projectId).then(res => {
+        this.$message.success('删除成功')
+        this.handleGetProjects()
+      })
+    },
+    handleGetProjects () {
+      this.projectLoading = true
+      this.projects = []
+      this.getProjects().then(res => {
+        this.projects = res
+        this.projectLoading = false
+      }).catch(() => {
+        this.projectLoading = false
+      })
     }
   },
   created () {
-    this.getProjects(this.userInfo.username).then(res => {
-      this.projects = res
-    })
+    this.set_project_info(null)
+    this.handleGetProjects()
   }
 }
 </script>

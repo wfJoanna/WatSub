@@ -2,7 +2,7 @@
   <div class="edit-player">
     <div class="player-panel">
       <div class="resource" v-if="url">
-        <video class="player-video"></video>
+        <video class="player-video" :src="url" controls></video>
       </div>
       <div class="empty-resource" v-else></div>
     </div>

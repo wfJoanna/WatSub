@@ -5,11 +5,11 @@
 
 ## 项目描述
 
-这是我的毕设作品，一个字幕制作网站，核心功能是语音识别和人物识别
+这是我的毕设作品，一个字幕制作网站，核心功能是语音识别和人物识别……
 
 全栈开发
 
-ai接口使用科大讯飞的免费接口
+ai接口使用科大讯飞的免费接口……
 
 开发时间：2022.4.5-
 
@@ -20,8 +20,11 @@ ai接口使用科大讯飞的免费接口
 - Axios
 - Sass
 - NodeJS
-- Koa2（koa-router，koa-bodyparser）
+- Koa2（koa-router，koa-body）
 - MongoDB（mongoose）
+- 腾讯云sdk（cos-nodejs-sdk-v5，tencentcloud-sdk-nodejs-asr）
+- jsonwebtoken
+- wavesurfer.js
 
 ## 具体项目描述
 

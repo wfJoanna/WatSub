@@ -11,19 +11,33 @@ db.on('open', function () {
 
 // 声明schema
 const userSchema = mongoose.Schema({
+  userId: String,
   username: String,
   password: String
 })
 const projectSchema = mongoose.Schema({
-  title: String,
   projectId: String,
-  username: String,
+  title: String,
+  userId: String,
   createTime: String,
-  updateTime: String
+  updateTime: String,
+  resource: String,
+  subtitleList: Array,
+  speaker: Array,
+  status: String,
+  taskId: String,
+  aiResult: String
+})
+const resourceSchema = mongoose.Schema({
+  resourceId: String,
+  resource: String,
+  uploadTime: String,
+  userId: String
 })
 const model = {
   User: mongoose.model('User', userSchema),
-  Project: mongoose.model('Project', projectSchema)
+  Project: mongoose.model('Project', projectSchema),
+  Resource: mongoose.model('Resource', resourceSchema)
 }
 
 module.exports = model

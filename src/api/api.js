@@ -16,14 +16,58 @@ export const userRegister = data =>
 
 /**
  * @method 新建项目
- * @param data 项目名称、创建时间、用户名
  */
-export const projectCreate = data =>
-  iAxios.post('/api/project/create', data)
+export const projectCreate = () =>
+  iAxios.get('/api/project/create')
 
 /**
  * @method 获取项目列表
- * @param username 用户名（用户唯一标识）
  */
-export const projectGet = username =>
-  iAxios.get(`/api/project/getByUser?username=${username}`)
+export const projectGet = () =>
+  iAxios.get('/api/project/getByUser')
+
+/**
+ * @method 删除项目
+ */
+export const projectDelete = data =>
+  iAxios.get(`/api/project/delete?projectId=${data}`)
+
+/**
+ * @method 上传视频
+ * @param data 视频流
+ */
+export const fileUpload = data =>
+  iAxios.post('/api/ai/upload', data)
+
+/**
+ * @method 获取资源列表
+ */
+export const resourceGet = () =>
+  iAxios.get('/api/resource/getByUser')
+
+/**
+ * @method 删除资源
+ */
+export const resourceDelete = data =>
+  iAxios.get(`/api/resource/delete?url=${data}`)
+
+/**
+ * @method 发起语音识别
+ * @param data 视频url和是否分离说话人
+ */
+export const speechRecognition = data =>
+  iAxios.post('/api/ai/speech', data)
+
+/**
+ * @method 保存项目信息
+ * @param data 项目信息
+ */
+export const projectSave = data =>
+  iAxios.post('/api/project/save', data)
+
+/**
+ * @method 获取最新项目信息（主要用于轮询获取ai结果）
+ * @param data 项目id
+ */
+export const newestProject = data =>
+  iAxios.get(`/api/project/info?id=${data}`)

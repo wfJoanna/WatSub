@@ -15,6 +15,7 @@ export default {
 .layout {
   padding-top: 70px + 20px;
   height: 100vh;
+  min-height: 715px;
   //padding-left: 70px;
   //padding-right: 70px;
 }

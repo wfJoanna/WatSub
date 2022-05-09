@@ -18,10 +18,12 @@
       <div class="logo-title">WATSUB</div>
       <el-form class="login-form" :model="loginForm">
         <el-form-item>
-          用户名：<el-input v-model="loginForm.username"></el-input>
+          用户名：
+          <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item>
-          密码：<el-input v-model="loginForm.password"></el-input>
+          密码：
+          <el-input v-model="loginForm.password" placeholder="请输入密码" show-password></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm">登录</el-button>
@@ -33,10 +35,13 @@
     <el-dialog class="register-form" title="注册" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="registerForm">
         <el-form-item label="用户名">
-          <el-input v-model="registerForm.username"></el-input>
+          <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="registerForm.password"></el-input>
+          <el-input v-model="registerForm.password" placeholder="请输入密码" show-password></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码">
+          <el-input v-model="registerForm.checkPass" placeholder="请再次输入密码" show-password></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -61,7 +66,8 @@ export default {
       },
       registerForm: {
         username: '',
-        password: ''
+        password: '',
+        checkPass: ''
       },
       dialogFormVisible: false
     }
@@ -71,20 +77,40 @@ export default {
     ...mapActions(['login', 'register']),
     // 提交登录
     submitForm () {
-      this.login(this.loginForm).then(res => {
-        this.set_user_info(res)
-        this.$message.success('登录成功')
-        this.$router.push({
-          path: '/'
+      if (!this.loginForm.username) {
+        this.$message.error('用户名不能为空')
+      } else if (!this.loginForm.password) {
+        this.$message.error('密码不能为空')
+      } else {
+        this.login(this.loginForm).then(res => {
+          this.set_user_info(res)
+          this.$message.success('登录成功')
+          this.$router.push({
+            path: '/'
+          })
+        }).catch(err => {
+          console.log(err)
         })
-      })
+      }
     },
     // 注册
     submitRegister () {
-      this.register(this.registerForm).then(res => {
-        this.$message.success('注册成功，请登录')
-        this.dialogFormVisible = false
-      })
+      if (!this.registerForm.username) {
+        this.$message.error('用户名不能为空')
+      } else if (!this.registerForm.password) {
+        this.$message.error('密码不能为空')
+      } else if (!this.registerForm.checkPass) {
+        this.$message.error('确认密码不能为空')
+      } else if (this.registerForm.password !== this.registerForm.checkPass) {
+        this.$message.error('密码不一致，请重新输入')
+      } else {
+        this.register(this.registerForm).then(res => {
+          this.$message.success('注册成功，请登录')
+          this.dialogFormVisible = false
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
   }
 }
