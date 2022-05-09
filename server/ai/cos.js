@@ -2,8 +2,8 @@ const COS = require('cos-nodejs-sdk-v5')
 const fs = require('fs')
 
 const cos = new COS({
-  SecretId: 'AKIDqWv3uUosgDTSAbmkRqyqQjlW0C7mA4j8',
-  SecretKey: 'A5mDOK0QcbLp2zf4C4fz2oJXUBG5ewyj'
+  SecretId: 'xxx',
+  SecretKey: 'xxx'
 })
 
 function putObject (file, filename) {
