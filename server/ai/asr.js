@@ -3,8 +3,8 @@ const tencentcloud = require('tencentcloud-sdk-nodejs-asr')
 const ASR = tencentcloud.asr.v20190614.Client
 const asr = new ASR({
   credential: {
-    secretId: 'AKIDqWv3uUosgDTSAbmkRqyqQjlW0C7mA4j8',
-    secretKey: 'A5mDOK0QcbLp2zf4C4fz2oJXUBG5ewyj'
+    secretId: 'xxx',
+    secretKey: 'xxx'
   }
 })
 
